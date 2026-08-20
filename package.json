@@ -1,0 +1,46 @@
+{
+  "name": "think-like-codex",
+  "version": "0.1.0",
+  "description": "Codex-inspired planning, evidence, goal, and anti-loop policy plugin for DeepSeek Harness.",
+  "type": "module",
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "index.js",
+    "cordis.patch.yml",
+    "README.md",
+    "LICENSE"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "keywords": [
+    "deepseek",
+    "dsh",
+    "cordis",
+    "agent",
+    "planning",
+    "codex"
+  ],
+  "author": "zhangnan",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zhangnan/think-like-codex.git"
+  },
+  "homepage": "https://github.com/zhangnan/think-like-codex#readme",
+  "bugs": {
+    "url": "https://github.com/zhangnan/think-like-codex/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

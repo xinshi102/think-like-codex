@@ -1,0 +1,12 @@
+- insert:
+    - id: think-like-codex
+      name: think-like-codex
+      config:
+        autoPlan: true
+        complexityMinChars: 120
+        stepReminderAt: 12
+        stepReminderEvery: 8
+        planCheckpointToolAt: 8
+        planHardToolLimit: 12
+        enforceGoalAfterPlan: true
+        failureReminderCount: 2
