@@ -9,6 +9,7 @@ It helps coding agents make deliberate decisions, avoid unproductive loops, ask 
 ## Features
 
 - Injects practical collaboration, code-generation, validation, and safety guidance.
+- Applies equivalent task detection and policy guidance to both English and Chinese requests.
 - Detects complex implementation requests and automatically enters DSH Plan mode.
 - Adds an exploration checkpoint after 8 tools in Plan mode and enforces a hard limit after 12 tools.
 - Requires an approved plan to be followed by a goal and todo list before mutation tools may run.

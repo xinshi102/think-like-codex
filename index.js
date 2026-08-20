@@ -17,31 +17,94 @@ export const Config = z.object({
 
 const MUTATION_WORDS = [
   '开发', '实现', '修复', '修改', '重构', '迁移', '部署', '发布', '新增', '删除',
-  '配置', '搭建', '接入', '替换', '升级', '优化', '改造', '生成代码',
+  '配置', '搭建', '接入', '替换', '升级', '优化', '改造', '生成代码', '更新',
   'implement', 'fix', 'refactor', 'migrate', 'deploy', 'release', 'build', 'add',
+  'change', 'modify', 'edit', 'create', 'delete', 'remove', 'replace', 'integrate',
+  'configure', 'set up', 'setup', 'upgrade', 'optimize', 'improve', 'redesign',
+  'rewrite', 'generate code', 'update',
 ]
 
 const WORK_WORDS = [
   ...MUTATION_WORDS,
   '分析', '设计', '排查', '验证', '测试', '检查', '更新', '规划',
-  'analyze', 'design', 'investigate', 'verify', 'test', 'update', 'plan',
+  'analyze', 'design', 'investigate', 'verify', 'test', 'plan', 'review', 'audit',
+  'inspect', 'debug', 'diagnose', 'troubleshoot', 'research',
 ]
 
 const STRONG_COMPLEXITY = [
   '复杂任务', '长任务', '端到端', '全面检查', '全面分析', '全面修复', '完整链路',
-  '从头到尾', '分阶段', '多个文件', '多模块', '前后端', '数据库迁移',
-  'complex task', 'long-running', 'end-to-end', 'multiple files', 'multi-step',
+  '从头到尾', '分阶段', '多个文件', '多文件', '多模块', '前后端', '数据库迁移',
+  'complex task', 'long task', 'long-running', 'end-to-end', 'multiple files',
+  'across multiple files', 'multi-file', 'multiple modules', 'multi-module',
+  'multi-step', 'full workflow', 'complete workflow', 'full-stack',
+  'frontend and backend', 'database migration', 'large refactor',
 ]
 
 const EXPLICIT_PLAN_MARKERS = [
   '修复计划', '实施计划', '执行计划', '制定计划', '指定计划', '先列计划', '先做计划',
   '先规划', '规划后执行', '方案并实现', '计划并执行', 'plan and implement', 'implementation plan',
+  'plan first', 'first make a plan', 'create a plan', 'make a plan',
+  'plan before implementation', 'plan then implement', 'plan and execute',
+  'planning and execution', 'step-by-step plan',
 ]
 
 const DIRECT_EXECUTION_HINTS = [
   '只回答', '简单回答', '快速回答', '简洁回答', '不要修改', '不修改文件', '只读',
   '不用计划', '不要计划', '无需计划', '不要执行', '只分析', '只检查',
-  'answer only', 'do not modify', 'read only', 'no plan', 'do not execute',
+  'answer only', 'just answer', 'brief answer', 'do not modify', "don't modify",
+  'do not change', "don't change", 'do not edit', "don't edit", 'read only',
+  'read-only', 'no plan', 'no planning', 'skip planning', 'without a plan',
+  'do not execute', "don't execute", 'analysis only', 'review only', 'only inspect',
+]
+
+const ABSOLUTE_DIRECT_EXECUTION_HINTS = [
+  '不用计划', '不要计划', '无需计划', '不要执行',
+  'no plan', 'no planning', 'skip planning', 'without a plan',
+  'do not execute', "don't execute",
+]
+
+const ENGLISH_MUTATION_PATTERNS = [
+  /\bimplement(?:s|ed|ing|ation)?\b/i,
+  /\bfix(?:es|ed|ing)?\b/i,
+  /\brefactor(?:s|ed|ing)?\b/i,
+  /\bmigrat(?:e|es|ed|ing|ion)\b/i,
+  /\bdeploy(?:s|ed|ing|ment)?\b/i,
+  /\breleas(?:e|es|ed|ing)\b/i,
+  /\b(?:build|builds|building|built)\b/i,
+  /\badd(?:s|ed|ing)?\b/i,
+  /\bchang(?:e|es|ed|ing)\b/i,
+  /\bmodif(?:y|ies|ied|ying|ication|ications)\b/i,
+  /\bedit(?:s|ed|ing)?\b/i,
+  /\bcreat(?:e|es|ed|ing|ion)\b/i,
+  /\bdelet(?:e|es|ed|ing|ion)\b/i,
+  /\bremov(?:e|es|ed|ing|al)\b/i,
+  /\breplac(?:e|es|ed|ing|ement)\b/i,
+  /\bintegrat(?:e|es|ed|ing|ion)\b/i,
+  /\bconfigur(?:e|es|ed|ing|ation)\b/i,
+  /\bset[ -]?up\b/i,
+  /\bupgrad(?:e|es|ed|ing)\b/i,
+  /\boptimi[sz](?:e|es|ed|ing|ation)\b/i,
+  /\bimprov(?:e|es|ed|ing|ement)\b/i,
+  /\bredesign(?:s|ed|ing)?\b/i,
+  /\brewrit(?:e|es|ten|ing)\b/i,
+  /\bgenerat(?:e|es|ed|ing|ion)\b/i,
+  /\bupdat(?:e|es|ed|ing)\b/i,
+]
+
+const ENGLISH_ANALYSIS_PATTERNS = [
+  /\banaly[sz](?:e|es|ed|ing|is)\b/i,
+  /\bdesign(?:s|ed|ing)?\b/i,
+  /\binvestigat(?:e|es|ed|ing|ion)\b/i,
+  /\bverif(?:y|ies|ied|ying|ication)\b/i,
+  /\btest(?:s|ed|ing)?\b/i,
+  /\bplan(?:s|ned|ning)?\b/i,
+  /\breview(?:s|ed|ing)?\b/i,
+  /\baudit(?:s|ed|ing)?\b/i,
+  /\binspect(?:s|ed|ing|ion)?\b/i,
+  /\bdebug(?:s|ged|ging)?\b/i,
+  /\bdiagnos(?:e|es|ed|ing|is)\b/i,
+  /\btroubleshoot(?:s|ing)?\b/i,
+  /\bresearch(?:es|ed|ing)?\b/i,
 ]
 
 const PLAN_DECISION_TOOLS = new Set([
@@ -58,6 +121,47 @@ const MUTATING_TOOLS = new Set([
 ])
 
 const POLICY = `## Think Like Codex
+
+Match the user's language unless they request another language. For mixed-language requests, follow the dominant language or the user's latest explicit preference.
+
+You are a reliable, disciplined, and collaborative coding agent. Reason thoroughly in private, but do not expose raw chain-of-thought. Share outcomes, key evidence, plans, progress, and decisions that belong to the user.
+
+### How to work
+
+- Understand the user's intended outcome, workspace rules, and existing implementation before acting. Discover facts from code, configuration, logs, or documentation instead of asking the user questions the environment can answer.
+- Proactively advance safe work that is within scope. Explain the evidence and ask the user before making a choice that materially changes the goal, external state, production data, or user preference.
+- Keep the user informed with short progress updates. Lead the final response with the outcome, followed by verification and remaining caveats. Never exaggerate completion or invent test results.
+- Distinguish observed facts, evidence-based inferences, and unverified assumptions. Claim a root cause only after reproducing the issue or establishing direct causal evidence. If observations conflict with the user's report, perform one direct check and one discriminating comparison, then ask the user with the evidence. Do not invent unfalsifiable explanations such as intermittent or transient behavior.
+- Maintain one primary hypothesis at a time. Record unrelated findings as side issues instead of pursuing them. Once you decide to ask the user, submit a plan, start implementation, or report completion, perform that action immediately instead of repeatedly reopening the decision.
+
+### Complex tasks require a plan and goal
+
+- Complex tasks include multi-file or multi-module changes, migrations, deployments, refactors, end-to-end features, investigate-then-fix work, and anything that clearly requires several stages.
+- This plugin conservatively detects complex changes and enters DSH Plan mode. In Plan mode, perform read-only exploration and submit the complete plan through exit_plan_mode. Do not mutate the environment before approval.
+- After plan approval, the first actions must create an acceptance-oriented persistent goal with create_goal and list concrete steps with todo_write. Only then may code or external state be changed. If an active goal already exists, read and continue it instead of creating another.
+- Update the todo list as each step completes. Mark the goal complete only when the objective is genuinely achieved and the critical path is verified. Never claim completion because the work is difficult or a turn limit is near.
+- Plan mode exists to remove unknowns that would change the design, not to produce an investigation diary. Prefer parallel reads of entry points, adjacent implementations, and constraints. Usually 4–8 information-gaining actions should be enough. State scope, key changes, acceptance criteria, and risks without presenting guesses as facts.
+
+### Avoid unproductive loops
+
+- Every tool call must answer a specific question. When the evidence is sufficient for a decision, stop exploring and move to implementation, verification, or reporting.
+- After the same hypothesis or obstacle fails twice, summarize known facts and choose a different method that can change the decision. If the missing input is a user choice, credential, external permission, real-device feedback, or information unavailable in the environment, use ask_user_question immediately. If that tool is unavailable, ask directly and stop retrying.
+- After a validation failure, perform at most one targeted comparison. If the result remains inconclusive, explain the environment limitation and hand the decision to the user. Do not repeat similar commands, refreshes, screenshots, or timing scripts to prove the same point.
+- Respect boundaries such as “stop testing”, “answer only”, and “do not deploy”. Narrow scope immediately after a correction and do not keep searching for problems in behavior the user has already verified.
+- When a direct check disproves the current hypothesis, continue only with a comparison that distinguishes two concrete explanations. Do not enumerate URLs, languages, user agents, timestamps, or similar projects merely for psychological certainty. Ask the user whenever one real-world observation would resolve ambiguity faster than more tool calls.
+
+### Generate code consistently
+
+- Read adjacent implementations and project conventions before writing. Reuse existing patterns, naming, and abstractions. Keep the diff small and focused; do not refactor unrelated code.
+- Check existing workspace changes before editing and preserve work owned by the user or other collaborators. Never overwrite, revert, or delete unrelated changes without authorization.
+- Produce complete, runnable code without placeholder implementations. Comments should explain reasons and constraints rather than restating syntax, and must follow the project's requested language.
+- Never place credentials, tokens, or private data in source code, logs, patches, commits, or responses.
+- Make verification proportional to risk. Syntax checks, a successful build, and one critical-path verification are normally enough. Treat real-browser feedback as authoritative for visual timing instead of repeatedly testing animation timing in a headless environment.
+- Use this execution loop: inspect workspace state and adjacent patterns → make the smallest change → review the focused diff → run syntax or build checks → verify the critical path once → report. If verification fails, make one targeted correction. Do not add similar tests after the core acceptance criteria pass.
+
+## 中文说明
+
+默认使用用户所用的语言回复；用户指定其他语言时遵循其选择。中英混合请求以主要语言或用户最新的明确偏好为准。
 
 你是一个可靠、克制、善于协作的编码智能体。内部完成充分推理，但不要向用户倾倒原始思维链；只给出结论、关键依据、计划、进度和需要用户决定的事项。
 
@@ -112,11 +216,11 @@ function resolveConfig(config = {}) {
     'planCheckpointToolAt', 'planHardToolLimit', 'failureReminderCount',
   ]) {
     if (!Number.isSafeInteger(resolved[key]) || resolved[key] < 1) {
-      throw new TypeError(`think-like-codex: ${key} 必须是正整数`)
+      throw new TypeError(`think-like-codex: ${key} must be a positive integer / 必须是正整数`)
     }
   }
   if (resolved.planCheckpointToolAt >= resolved.planHardToolLimit) {
-    throw new TypeError('think-like-codex: planCheckpointToolAt 必须小于 planHardToolLimit')
+    throw new TypeError('think-like-codex: planCheckpointToolAt must be less than planHardToolLimit / 必须小于 planHardToolLimit')
   }
   return resolved
 }
@@ -129,9 +233,39 @@ function messageText(message) {
     .trim()
 }
 
-function countMatchedWords(text, words) {
+function escapeRegExp(text) {
+  return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+
+function containsPhrase(text, phrase) {
   const lower = text.toLowerCase()
-  return words.reduce((count, word) => count + (lower.includes(word.toLowerCase()) ? 1 : 0), 0)
+  const normalizedPhrase = phrase.toLowerCase()
+  if (/[^\x00-\x7f]/.test(normalizedPhrase)) return lower.includes(normalizedPhrase)
+  return new RegExp(`(?:^|[^a-z0-9])${escapeRegExp(normalizedPhrase)}(?:$|[^a-z0-9])`, 'i').test(lower)
+}
+
+function containsAnyPhrase(text, phrases) {
+  return phrases.some(phrase => containsPhrase(text, phrase))
+}
+
+function countActionKinds(text, words, englishPatterns) {
+  const cjkCount = words
+    .filter(word => /[^\x00-\x7f]/.test(word))
+    .reduce((count, word) => count + (containsPhrase(text, word) ? 1 : 0), 0)
+  return cjkCount + englishPatterns.reduce((count, pattern) => count + (pattern.test(text) ? 1 : 0), 0)
+}
+
+function hasDirectExecutionOverride(text) {
+  if (containsAnyPhrase(text, ABSOLUTE_DIRECT_EXECUTION_HINTS)) return true
+  if (!containsAnyPhrase(text, DIRECT_EXECUTION_HINTS)) return false
+
+  // Treat a read-only phrase as scoped when a separate clause still requests a mutation.
+  // Example: “Do not modify docs; update the implementation and tests.”
+  const clauses = text.split(/[\n,，;；。.!?！？]+/).map(clause => clause.trim()).filter(Boolean)
+  return !clauses.some(clause =>
+    !containsAnyPhrase(clause, DIRECT_EXECUTION_HINTS) &&
+    countActionKinds(clause, MUTATION_WORDS, ENGLISH_MUTATION_PATTERNS) > 0
+  )
 }
 
 /**
@@ -139,18 +273,25 @@ function countMatchedWords(text, words) {
  */
 export function isComplexTask(text, minimumChars = 120) {
   const normalized = text.trim()
-  if (!normalized || DIRECT_EXECUTION_HINTS.some(hint => normalized.toLowerCase().includes(hint.toLowerCase()))) {
+  if (!normalized || hasDirectExecutionOverride(normalized)) {
     return false
   }
 
-  const mutations = countMatchedWords(normalized, MUTATION_WORDS)
+  const mutations = countActionKinds(normalized, MUTATION_WORDS, ENGLISH_MUTATION_PATTERNS)
   if (mutations === 0) return false
 
-  const workKinds = countMatchedWords(normalized, WORK_WORDS)
-  const hasStrongMarker = STRONG_COMPLEXITY.some(marker => normalized.toLowerCase().includes(marker.toLowerCase()))
-  const hasExplicitPlan = EXPLICIT_PLAN_MARKERS.some(marker => normalized.toLowerCase().includes(marker.toLowerCase()))
+  const workKinds = countActionKinds(
+    normalized,
+    WORK_WORDS,
+    [ ...ENGLISH_MUTATION_PATTERNS, ...ENGLISH_ANALYSIS_PATTERNS ],
+  )
+  const hasStrongMarker = containsAnyPhrase(normalized, STRONG_COMPLEXITY)
+  const hasExplicitPlan = containsAnyPhrase(normalized, EXPLICIT_PLAN_MARKERS)
   const listItems = (normalized.match(/(?:^|\n)\s*(?:[-*]|\d+[.)、])/g) || []).length
-  const stagedLanguage = /先.{0,80}(?:再|然后|随后|最后)|(?:同时|并且).{0,80}(?:验证|测试|部署|迁移|修复)/s.test(normalized)
+  const stagedLanguage =
+    /先.{0,100}(?:再|然后|随后|最后)|(?:同时|并且).{0,100}(?:验证|测试|部署|迁移|修复|更新)/s.test(normalized) ||
+    /\b(?:first|start by)\b[\s\S]{0,140}\b(?:then|next|after that|finally)\b/i.test(normalized) ||
+    /\b(?:then|also|and)\b[\s\S]{0,100}\b(?:verify|test|deploy|migrate|fix|update)\b/i.test(normalized)
 
   return hasStrongMarker || hasExplicitPlan ||
     (normalized.length >= minimumChars && workKinds >= 2) ||
@@ -311,8 +452,8 @@ export function apply(ctx, config) {
     }
 
     return appendContext(decision, notice(
-      `<think_like_codex_checkpoint>\n当前回合已进行 ${step} 个步骤。现在必须收敛，下一步只能选择一种：①已有证据足够，立即修改或提交计划；②只做一次能区分具体假设的检查；③缺少用户选择、权限、凭据、真实设备反馈或外部状态，立即使用 ask_user_question；④关键验收已通过，立即汇报。禁止继续枚举相似可能、近似命令或额外验证，也不要在决定后用“等等/再想想”重新扩张。\n</think_like_codex_checkpoint>`,
-      `第 ${step} 步止损检查`,
+      `<think_like_codex_checkpoint>\nThis turn has reached step ${step}. Converge now and choose exactly one next action: (1) evidence is sufficient—implement or submit the plan; (2) run one check that distinguishes concrete hypotheses; (3) a user choice, permission, credential, real-device observation, or external state is missing—use ask_user_question now; or (4) critical acceptance has passed—report the result. Do not enumerate similar possibilities, near-duplicate commands, or extra validation, and do not reopen the decision with “wait” or “one more thought.”\n\n当前回合已进行 ${step} 个步骤。现在必须收敛，下一步只能选择一种：①已有证据足够，立即修改或提交计划；②只做一次能区分具体假设的检查；③缺少用户选择、权限、凭据、真实设备反馈或外部状态，立即使用 ask_user_question；④关键验收已通过，立即汇报。禁止继续枚举相似可能、近似命令或额外验证，也不要在决定后用“等等/再想想”重新扩张。\n</think_like_codex_checkpoint>`,
+      `Step ${step} convergence check / 第 ${step} 步止损检查`,
     ))
   }, { prepend: true })
 
@@ -328,13 +469,13 @@ export function apply(ctx, config) {
       if (!goal || goal.phase !== 'active') {
         return {
           kind: 'deny',
-          reason: 'think-like-codex：复杂任务的计划已经通过。修改环境前必须先调用 create_goal 建立可验收目标，再调用 todo_write 列出执行步骤。',
+          reason: 'think-like-codex: The complex-task plan is approved. Before mutating the environment, call create_goal with an acceptance-oriented objective, then call todo_write with the execution steps. / 复杂任务的计划已经通过。修改环境前必须先调用 create_goal 建立可验收目标，再调用 todo_write 列出执行步骤。',
         }
       }
       if (!hasTodoAfterGoal(exec.agent, goal.id)) {
         return {
           kind: 'deny',
-          reason: 'think-like-codex：活动 goal 已建立，但尚未在该 goal 后调用 todo_write。请先列出执行步骤，再修改代码或外部状态。',
+          reason: 'think-like-codex: An active goal exists, but todo_write has not been called after that goal. List the execution steps before changing code or external state. / 活动 goal 已建立，但尚未在该 goal 后调用 todo_write。请先列出执行步骤，再修改代码或外部状态。',
         }
       }
     }
@@ -343,7 +484,7 @@ export function apply(ctx, config) {
     if (workflow.planToolCalls >= resolved.planHardToolLimit) {
       return {
         kind: 'deny',
-        reason: `think-like-codex：Plan mode 已使用 ${workflow.planToolCalls} 个探索工具，预算已耗尽。现在只能调用 exit_plan_mode 提交证据充分的计划，或调用 ask_user_question 请求缺失信息；不要继续 read/grep/bash/web 等扩张式排查。`,
+        reason: `think-like-codex: Plan mode has used ${workflow.planToolCalls} exploration tools and the budget is exhausted. Call exit_plan_mode with an evidence-based plan, or call ask_user_question for missing information. Do not continue broad read/grep/bash/web exploration. / Plan mode 已使用 ${workflow.planToolCalls} 个探索工具，预算已耗尽。现在只能调用 exit_plan_mode 提交证据充分的计划，或调用 ask_user_question 请求缺失信息；不要继续扩张式排查。`,
       }
     }
     workflow.planToolCalls += 1
@@ -372,8 +513,8 @@ export function apply(ctx, config) {
     ) {
       workflow.planCheckpointSent = true
       additional.push(notice(
-        `<think_like_codex_plan_budget>\nPlan mode 已使用 ${workflow.planToolCalls}/${resolved.planHardToolLimit} 个探索工具。不要再扩大问题空间：整理已确认事实、关键未知量和最小可执行方案。下一步优先调用 exit_plan_mode；若唯一缺口只能由用户提供，调用 ask_user_question。达到上限后其他探索工具会被拒绝。\n</think_like_codex_plan_budget>`,
-        `Plan 探索预算 ${workflow.planToolCalls}/${resolved.planHardToolLimit}`,
+        `<think_like_codex_plan_budget>\nPlan mode has used ${workflow.planToolCalls}/${resolved.planHardToolLimit} exploration tools. Stop expanding the problem space. Consolidate verified facts, decision-relevant unknowns, and the smallest executable design. Prefer exit_plan_mode next; if the only gap belongs to the user, call ask_user_question. Other exploration tools will be denied at the limit.\n\nPlan mode 已使用 ${workflow.planToolCalls}/${resolved.planHardToolLimit} 个探索工具。不要再扩大问题空间：整理已确认事实、关键未知量和最小可执行方案。下一步优先调用 exit_plan_mode；若唯一缺口只能由用户提供，调用 ask_user_question。达到上限后其他探索工具会被拒绝。\n</think_like_codex_plan_budget>`,
+        `Plan exploration budget / 探索预算 ${workflow.planToolCalls}/${resolved.planHardToolLimit}`,
       ))
     }
 
@@ -386,8 +527,8 @@ export function apply(ctx, config) {
       failures.set(agent, { key, count })
       if (count === resolved.failureReminderCount) {
         additional.push(notice(
-          `<think_like_codex_blocker>\n已连续 ${count} 次遇到同一类工具失败。不要再用近似参数重复尝试。先总结已经确认的事实；若存在一个不同且能改变判断的诊断，只做那一次。若阻碍来自用户选择、凭据、权限、未启动的服务、真实浏览器或其他外部状态，请立即使用 ask_user_question 说明已尝试内容和具体需要。\n</think_like_codex_blocker>`,
-          `连续 ${count} 次同类失败`,
+          `<think_like_codex_blocker>\nThe same class of tool failure has occurred ${count} times. Do not retry with near-identical arguments. Summarize verified facts first. If one different diagnostic could change the decision, run only that check. If the blocker is a user choice, credential, permission, service that is not running, real-browser observation, or other external state, use ask_user_question now and state what was tried and exactly what is needed.\n\n已连续 ${count} 次遇到同一类工具失败。不要再用近似参数重复尝试。先总结已经确认的事实；若存在一个不同且能改变判断的诊断，只做那一次。若阻碍来自用户选择、凭据、权限、未启动的服务、真实浏览器或其他外部状态，请立即使用 ask_user_question 说明已尝试内容和具体需要。\n</think_like_codex_blocker>`,
+          `${count} repeated failures / 连续 ${count} 次同类失败`,
         ))
       }
     }
