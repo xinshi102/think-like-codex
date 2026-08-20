@@ -1,16 +1,38 @@
 # think-like-codex
 
-Codex 风格的 DeepSeek Harness（DSH）行为策略 Profile Bundle。它基于实际 session 中暴露出的长回合、过度验证、缺少 goal 和遇阻后持续试错问题，提供以下行为：
+English | [简体中文](./README.zh-CN.md)
 
-- 注入 Codex 风格的协作、代码生成、验证和安全规范；
-- 识别复杂改动和明确要求“修复计划”的短请求，并自动切换到 DSH Plan mode；
-- Plan mode 第 8 个探索工具时要求收敛，第 12 个达到硬上限后只允许提交计划或向用户求助；
-- 计划获批后用工具执行闸门确保先创建 goal 和 todo，再修改代码或外部状态；
-- 连续两次同类工具失败时提醒停止重复并主动向用户求助；
-- 单回合从第 12 步起周期性注入更明确的决策检查；
-- 强制区分事实、推断和假设，无法复现时最多做一次对照，然后请求用户提供真实场景。
+A Codex-inspired behavior policy and Profile Bundle for DeepSeek Harness (DSH).
 
-## 配置
+It helps coding agents make deliberate decisions, avoid unproductive loops, ask the user for help when evidence is insufficient, and follow a structured plan → goal → implementation workflow for complex tasks.
+
+## Features
+
+- Injects practical collaboration, code-generation, validation, and safety guidance.
+- Detects complex implementation requests and automatically enters DSH Plan mode.
+- Adds an exploration checkpoint after 8 tools in Plan mode and enforces a hard limit after 12 tools.
+- Requires an approved plan to be followed by a goal and todo list before mutation tools may run.
+- Detects repeated tool failures and prompts the agent to change approach or ask the user for help.
+- Adds periodic decision checkpoints during long turns.
+- Distinguishes verified facts, inferences, and assumptions.
+- Limits repeated attempts when an issue cannot be reproduced in the available environment.
+
+Simple questions and explicitly read-only tasks do not automatically enter Plan mode. Users can also override automatic planning by clearly asking the agent not to plan. A direct user follow-up resets the exploration budget so a changed direction can be investigated normally.
+
+The plugin reuses DSH's built-in `planMode`, `create_goal`, `todo_write`, `ask_user_question`, and `repeat-tool-reminder` capabilities. It does not register duplicate tools or modify session files directly.
+
+## Installation
+
+```bash
+dsh plugin --profile web add -w think-like-codex
+dsh --profile web
+```
+
+This package is a DSH Profile Bundle. Its bundled `cordis.patch.yml` mounts the plugin automatically. Replace `web` with another profile name when needed. Restart the profile host after updating host-side code.
+
+## Configuration
+
+The bundle installs the following defaults:
 
 ```yaml
 - id: think-like-codex
@@ -26,20 +48,9 @@ Codex 风格的 DeepSeek Harness（DSH）行为策略 Profile Bundle。它基于
     failureReminderCount: 2
 ```
 
-简单问答、明确要求只读或不要修改的任务不会自动进入 Plan mode。用户仍可通过明确说“不要计划”覆盖自动识别。探索预算按每次用户直接补充重置，避免用户改变方向后没有必要的调查空间。
+Override the complete `config` object for `think-like-codex` in your profile's `cordis.patch.yml` if you need different thresholds.
 
-插件复用 DSH 自带的 `planMode`、`create_goal`、`todo_write`、`ask_user_question` 和 `repeat-tool-reminder`，不注册重复工具，也不直接修改会话文件。
-
-## 安装
-
-```bash
-dsh plugin --profile web add -w think-like-codex
-dsh --profile web
-```
-
-这是一个 Profile Bundle，安装后会通过包内的 `cordis.patch.yml` 自动挂载。要在其他 profile 使用，请把 `web` 替换为对应 profile 名称。宿主端代码更新后需要重启该 profile。
-
-## 卸载
+## Uninstallation
 
 ```bash
 dsh plugin --profile web remove think-like-codex
